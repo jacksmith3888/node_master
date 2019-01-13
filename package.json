@@ -33,7 +33,9 @@
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
-    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('node-master-ts must be installed with Yarn: https://yarnpkg.com/')\""
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('node-master-ts must be installed with Yarn: https://yarnpkg.com/')\"",
+    "serve":"node build/main/index.js",
+    "start": "run-s clean build:main && run-p \"build:main -- -w\" \"serve -- --watch\""
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
