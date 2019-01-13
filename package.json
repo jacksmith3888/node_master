@@ -1,6 +1,6 @@
 {
   "name": "node-master-ts",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "play",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -34,7 +34,7 @@
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
     "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('node-master-ts must be installed with Yarn: https://yarnpkg.com/')\"",
-    "serve":"node build/main/index.js",
+    "serve": "node build/main/index.js",
     "start": "run-s clean build:main && run-p \"build:main -- -w\" \"serve -- --watch\""
   },
   "scripts-info": {
