@@ -1,6 +1,6 @@
 import http from 'http'
-import url from 'url'
 import { StringDecoder } from 'string_decoder'
+import url from 'url'
 
 const server = http.createServer((req, res) => {
   // Get and Parse URL
@@ -19,30 +19,32 @@ const server = http.createServer((req, res) => {
   const headers = req.headers
 
   const decoder = new StringDecoder('utf-8')
-  let buffer:string = ''
-  req.on('data', (data) => {
+  let buffer: string = ''
+  req.on('data', data => {
     buffer += decoder.write(data)
   })
 
   req.on('end', () => {
     buffer += decoder.end()
 
-    const chosenHandler = router[trimmedPath] ? router[trimmedPath] : handlers.notFound
+    const chosenHandler = router[trimmedPath]
+      ? router[trimmedPath]
+      : handlers.notFound
     const data = {
       trimmedPath,
       queryString,
       method,
       headers,
-      payload:buffer
+      payload: buffer,
     }
-    chosenHandler(data,(statusCode:number = 200, payload = {}) => {
+    chosenHandler(data, (statusCode: number = 200, payload = {}) => {
       const payloadString = JSON.stringify(payload)
+      res.setHeader('Content-Type', 'application/json')
       res.writeHead(statusCode)
 
       // Send response
       res.end(payloadString)
-      console.log('returning',payloadString)
-
+      console.log('returning', payloadString)
     })
   })
 })
@@ -52,14 +54,14 @@ server.listen(3001, function() {
 })
 
 const handlers = {
-  sample: (data, cb) => {
-    cb(406, { name: 'sample'})
+  sample: (data: any, cb: (statusCode: number, payload: any) => void) => {
+    cb(406, { name: 'sample' })
   },
   notFound: (data, cb) => {
     cb(404)
-  }
+  },
 }
 
 const router = {
-  sample: handlers.sample
+  sample: handlers.sample,
 }
